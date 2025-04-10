@@ -1,3 +1,14 @@
+Here’s a neatly formatted summary of the NoSQL MongoDB Query Processing and CRUD operations you've listed:
+
+
+---
+
+1. Create a MongoDB Database
+
+use inventory
+
+2. Create a Collection and Insert Documents
+
 db.products.insertMany([
   {
     "_id": 1,
@@ -27,3 +38,92 @@ db.products.insertMany([
     "storage": [16, 64, 128]
   }
 ])
+
+
+---
+
+3. Retrieve All Documents
+
+db.products.find()
+
+4. Details of Product with _id = 3
+
+db.products.find({ _id: 3 })
+
+5. Display First Document
+
+db.products.findOne()
+
+6. Display Name and Price of Product with _id = 2
+
+db.products.find({ _id: 2 }, { name: 1, price: 1 })
+
+7. Products with Price = 799
+
+db.products.find({ price: { $eq: 799 } })
+
+8. Delete Product with _id = 1
+
+db.products.deleteOne({ _id: 1 })
+
+9. Products with RAM = 12
+
+db.products.find({ "spec.ram": { $eq: 12 } }, { name: 1, "spec.ram": 1 })
+
+10. Products with Screen < 7
+
+db.products.find({ "spec.screen": { $lt: 7 } })
+
+11. Products with Price < 1000
+
+db.products.find({ price: { $lt: 1000 } }, { name: 1, price: 1 })
+
+12. Products with Price 699 or 799
+
+db.products.find({ price: { $in: [699, 799] } }, { name: 1, price: 1 })
+
+13. Products with Color 'black' or 'white'
+
+db.products.find({ color: { $in: ["black", "white"] } })
+
+14. Products with Price != 699 and != 799
+
+db.products.find({ price: { $nin: [699, 799] } }, { name: 1, price: 1 })
+
+15. Products with Price = 799 and Color 'white' or 'black'
+
+db.products.find(
+  { $and: [{ price: 799 }, { color: { $in: ["white", "black"] } }] },
+  { name: 1, price: 1, color: 1 }
+)
+
+16. Products with Price < 699 or > 799
+
+db.products.find({
+  $or: [
+    { price: { $lt: 699 } },
+    { price: { $gt: 799 } }
+  ]
+})
+
+17. Sort by Release Date (Descending)
+
+db.products.find({ releaseDate: { $exists: 1 } }, { name: 1, releaseDate: 1 }).sort({ releaseDate: -1 })
+
+18. Sort by Name and Price (Ascending)
+
+db.products.find().sort({ name: 1, price: 1 })
+
+19. Most Expensive Product
+
+db.products.find().sort({ price: -1 }).limit(1)
+
+20. Display 3rd and 4th Records
+
+db.products.find().skip(2).limit(2)
+
+
+---
+
+Let me know if you'd like this as a downloadable file or explained further!
+
