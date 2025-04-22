@@ -1,0 +1,191 @@
+Great! Here are the MongoDB commands for each of the questions based on your experiment:
+
+
+---
+
+1. Create Database and Collection
+
+use college;
+
+db.class.insertMany([
+  {
+    rollno: 1, name: "Alice", age: 21, gender: "F", div: "A",
+    sub: ["Math", "Physics"], credit: 4
+  },
+  {
+    rollno: 2, name: "Tom", age: 19, gender: "M", div: "B",
+    sub: ["Chemistry", "Math"], credit: 5
+  },
+  // Add 8 more sample documents
+]);
+
+
+---
+
+2. Insert 10 Records
+
+Already done in the above step using insertMany.
+
+
+---
+
+3. Display All Records
+
+db.class.find();
+
+
+---
+
+4. Total Students & Max Age per Division
+
+db.class.aggregate([
+  {
+    $group: {
+      _id: "$div",
+      totalStudents: { $sum: 1 },
+      maxAge: { $max: "$age" }
+    }
+  }
+]);
+
+
+---
+
+5. Students with Age > 20
+
+db.class.aggregate([
+  { $match: { age: { $gt: 20 } } }
+]);
+
+
+---
+
+6. Sort by Age Descending
+
+db.class.find().sort({ age: -1 });
+
+
+---
+
+7. Min Age Student in Division B
+
+db.class.aggregate([
+  { $match: { div: "B" } },
+  { $sort: { age: 1 } },
+  { $limit: 1 }
+]);
+
+
+---
+
+8. Average Age of Students
+
+db.class.aggregate([
+  {
+    $group: {
+      _id: null,
+      avgAge: { $avg: "$age" }
+    }
+  }
+]);
+
+
+---
+
+9. Count Male and Female Students
+
+db.class.aggregate([
+  {
+    $group: {
+      _id: "$gender",
+      count: { $sum: 1 }
+    }
+  }
+]);
+
+
+---
+
+10. Unwind Subjects
+
+db.class.aggregate([
+  { $unwind: "$sub" }
+]);
+
+
+---
+
+11. Subject with Highest Credit
+
+db.class.find().sort({ credit: -1 }).limit(1);
+
+
+---
+
+12. Name Starts with 'T'
+
+db.class.find({ name: /^T/ });
+
+
+---
+
+13. Students with Subject "Math"
+
+db.class.find({ sub: "Math" });
+
+
+---
+
+14. First Student in Each Division (by Rollno)
+
+db.class.aggregate([
+  { $sort: { rollno: 1 } },
+  {
+    $group: {
+      _id: "$div",
+      firstStudent: { $first: "$$ROOT" }
+    }
+  }
+]);
+
+
+---
+
+15. Last Student in Each Division (by Age Ascending)
+
+db.class.aggregate([
+  { $sort: { age: 1 } },
+  {
+    $group: {
+      _id: "$div",
+      lastStudent: { $last: "$$ROOT" }
+    }
+  }
+]);
+
+
+---
+
+16. Create Index on rollno
+
+db.class.createIndex({ rollno: 1 }, { name: "rollno_index" });
+
+
+---
+
+17. Show All Indexes
+
+db.class.getIndexes();
+
+
+---
+
+18. Drop Index
+
+db.class.dropIndex("rollno_index");
+
+
+---
+
+Let me know if you want to see the expected output for any of these or need help generating the sample data.
+
